@@ -60,6 +60,10 @@ public class RemoteClass extends UnicastRemoteObject implements RemoteInterface 
         return this.client;
     }
 
+    /**
+     * Main method for server initialization.
+     * @param args Receive only one parameter. 1st: Connection port.
+     */
     public static void main(String[] args) throws Exception{
         Scanner scanner = new Scanner(System.in);
 
