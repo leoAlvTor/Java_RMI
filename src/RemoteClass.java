@@ -1,5 +1,7 @@
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Scanner;
 
 /**
  * @author Leo Alvarado
@@ -56,6 +58,22 @@ public class RemoteClass extends UnicastRemoteObject implements RemoteInterface 
     @Override
     public RemoteInterface getClient() throws RemoteException {
         return this.client;
+    }
+
+    public static void main(String[] args) throws Exception{
+        Scanner scanner = new Scanner(System.in);
+
+        RemoteInterface server = new RemoteClass("server");
+        Naming.rebind("rmi://" + java.net.InetAddress.getLocalHost().getHostAddress() +
+                ":" + args[0] + "/PruebaRMI", server);
+
+        System.out.println("Server Ready!");
+        while(true){
+            System.out.println("Enter a message: ");
+            if(server.getClient() != null)
+                server.getClient().send("["+server.getName()+"]=> "+scanner.nextLine());
+        }
+
     }
 
 }

@@ -27,7 +27,7 @@ public class Client {
 
         // Create an infinite loop to send messages to the server.
         while(true){
-            System.out.println("Enter a message:");
+            System.out.println("Enter a message: ");
             server.send("["+client.getName()+"]=> " + scanner.nextLine().trim());
         }
 
