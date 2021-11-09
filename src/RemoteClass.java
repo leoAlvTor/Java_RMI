@@ -1,6 +1,10 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * @author Leo Alvarado
+ * @version 1.0
+ */
 public class RemoteClass extends UnicastRemoteObject implements RemoteInterface {
 
     // Chat identifier.
