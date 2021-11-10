@@ -1,4 +1,5 @@
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * @author Leo Alvarado
@@ -7,6 +8,8 @@ import java.rmi.RemoteException;
 public interface RemoteInterface extends java.rmi.Remote{
     String getName() throws RemoteException;
     void send(String message) throws RemoteException;
+    void sendAll(String message) throws RemoteException;
     void setClient(RemoteInterface remoteInterface) throws RemoteException;
-    RemoteInterface getClient() throws RemoteException;
+    List<RemoteInterface> getClients() throws RemoteException;
+    int getNumberOfClients() throws RemoteException;
 }
