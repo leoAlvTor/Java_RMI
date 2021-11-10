@@ -28,8 +28,8 @@ Distributed Systems Practice #2 Part 2 RMI basic chat.
 ```
 
 1. Compiles the client side connection class.
-2. Executes the Client side connetion in localhost and port 1234.
+2. Executes the Client side connetion in localhost and port 1234, you have to choose a client name.
 ```
 1. javac Client.java
-2. java Client 127.0.0.1 1234
+2. java Client 127.0.0.1 1234 UserName
 ```
