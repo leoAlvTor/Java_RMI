@@ -1,6 +1,8 @@
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -13,6 +15,8 @@ public class RemoteClass extends UnicastRemoteObject implements RemoteInterface 
     private final String name;
     // Remote interface whether for Client or Server.
     private RemoteInterface client = null;
+    // List of clients
+    private List<RemoteInterface> clientList = null;
 
     /**
      * Class constructor for RemoteClass.
@@ -22,6 +26,7 @@ public class RemoteClass extends UnicastRemoteObject implements RemoteInterface 
     public RemoteClass(String userName) throws RemoteException {
         super();
         this.name = userName;
+        this.clientList = new ArrayList<>();
     }
 
     /**
@@ -43,6 +48,18 @@ public class RemoteClass extends UnicastRemoteObject implements RemoteInterface 
     }
 
     /**
+     * Method definition for broadcasting a message across all clients and server.
+     * @param message Represents a message as string.
+     * @throws RemoteException
+     */
+    @Override
+    public void sendAll(String message) throws RemoteException {
+        for(RemoteInterface remoteInterface : clientList)
+            remoteInterface.send(message);
+        System.out.println(message);
+    }
+
+    /**
      * Method definition to link two remote interfaces (Client<->Server)
      * @param remoteInterface A RemoteInterface instance containing a valid connection.
      */
@@ -52,12 +69,17 @@ public class RemoteClass extends UnicastRemoteObject implements RemoteInterface 
     }
 
     /**
-     * Method definition for getting client reference.
+     * Method definition for getting all clients linked to the server.
      * @return An instance of RemoteInterface interface.
      */
     @Override
-    public RemoteInterface getClient() throws RemoteException {
-        return this.client;
+    public List<RemoteInterface> getClients() throws RemoteException {
+        return this.clientList;
+    }
+
+    @Override
+    public int getNumberOfClients(){
+        return this.clientList.size();
     }
 
     /**
@@ -74,8 +96,11 @@ public class RemoteClass extends UnicastRemoteObject implements RemoteInterface 
         System.out.println("Server Ready!");
         while(true){
             System.out.println("Enter a message: ");
-            if(server.getClient() != null)
-                server.getClient().send("["+server.getName()+"]=> "+scanner.nextLine());
+            // Checks if there are connected clients.
+            if(server.getNumberOfClients() > 0)
+                // For each connected client a message will be broadcast.
+                for(RemoteInterface remoteInterface : server.getClients())
+                    remoteInterface.sendAll("["+server.getName()+"]=> "+scanner.nextLine());
         }
 
     }
