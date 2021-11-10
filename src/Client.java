@@ -13,16 +13,16 @@ public class Client {
      * @param args Two args are allowed, 1st: Ip direction. 2nd: Connection Port.
      */
     public static void main(String[] args) throws Exception{
-        // Creates a new instance for client connection.
-        RemoteInterface client = new RemoteClass("leo");
+        // Creates a new instance for client connection and receive the client name through console.
+        RemoteInterface client = new RemoteClass(args[2]);
         // Lookup for server instance in a specific url.
         RemoteInterface server= (RemoteInterface) Naming.lookup("rmi://" +
                 args[0] + ":" + args[1] + "/PruebaRMI");
         // Scanner instance for reading keyboard input.
         Scanner scanner = new Scanner(System.in);
 
-        // Link client with our server...
-        server.send("Client connected successfully...");
+        // Link client with our server and prints the client name.
+        server.send("Client" + client.getName() +" connected successfully...");
         server.setClient(client);
 
         // Create an infinite loop to send messages to the server.
